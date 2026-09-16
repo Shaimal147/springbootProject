@@ -3,6 +3,7 @@ package com.tai.backend.controller;
 import java.util.Optional;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/home")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class HelloController {
     private final ExpensesService expensesService;
 
