@@ -1,6 +1,7 @@
 package com.tai.backend.controller;
 
-import java.util.Map;
+import java.util.Optional;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tai.backend.dto.AddExpenseRequest;
 import com.tai.backend.service.ExpensesService;
+import com.tai.backend.entity.Expense;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,17 +36,17 @@ public class HelloController {
     }
 
     @GetMapping("/expenses")
-    public Map<String, Integer> expenses() {
+    public List<Expense> expenses() {
         return expensesService.getExpenses();
     }
 
-    @GetMapping("/expenses/{name}")
-    public Map.Entry<String, Integer> expenses(@PathVariable String name) {
-        return expensesService.getExpense(name);
+    @GetMapping("/expenses/{id}")
+    public Optional<Expense> expenses(@PathVariable Long id) {
+        return expensesService.getExpense(id);
     }
 
-    @DeleteMapping("/expenses/{name}")
-    public String deleteExpense(@PathVariable String name) {
-        return expensesService.deleteExpense(name);
+    @DeleteMapping("/expenses/{id}")
+    public String deleteExpense(@PathVariable Long id) {
+        return expensesService.deleteExpense(id);
     } 
 }

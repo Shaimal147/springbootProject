@@ -1,37 +1,42 @@
 package com.tai.backend.service;
 
 import com.tai.backend.dto.AddExpenseRequest;
+import com.tai.backend.repository.ExpenseRepository;
+import com.tai.backend.entity.Expense;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class ExpensesService {
-    private Map<String, Integer> expenses = new HashMap<>();
 
-    public Map<String,Integer> getExpenses() {
-        return expenses;
+    private final ExpenseRepository expenseRepository;
+
+    public ExpensesService(ExpenseRepository expenseRepository) {
+        this.expenseRepository = expenseRepository;
+    }
+
+    public List<Expense> getExpenses() {
+        return expenseRepository.findAll();
     }
 
     public void addExpense(AddExpenseRequest request) {
-        expenses.put(request.getExpenseName(), request.getExpenseAmount());
+        Expense expense = new Expense();
+        expense.setExpenseName(request.getExpenseName());
+        expense.setExpenseAmount(request.getExpenseAmount());
+
+        expenseRepository.save(expense);
     }
 
-    public Map.Entry<String,Integer> getExpense(String name) {
-        if (expenses.containsKey(name)) {
-            return Map.entry(name, expenses.get(name));
-        }
-        return null;
+    public Optional<Expense> getExpense(Long id) {
+        return expenseRepository.findById(id);
     }
 
-    public String deleteExpense(String name) {
-        if (expenses.containsKey(name)) {
-            expenses.remove(name);
-            return "Successfully deleted";
-        }
-        return null;
+    public String deleteExpense(Long id) {
+        expenseRepository.deleteById(id);
+        return "Successfully Deleted";
     }
 }
