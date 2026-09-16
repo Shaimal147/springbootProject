@@ -14,6 +14,7 @@ import com.tai.backend.entity.Expense;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -30,11 +31,6 @@ public class HelloController {
         return "home";
     }
 
-    @PostMapping("/expenses")
-    public void expenses(@RequestBody AddExpenseRequest request) {
-        expensesService.addExpense(request);
-    }
-
     @GetMapping("/expenses")
     public List<Expense> expenses() {
         return expensesService.getExpenses();
@@ -45,8 +41,26 @@ public class HelloController {
         return expensesService.getExpense(id);
     }
 
+    @PostMapping("/expenses")
+    public void expenses(@RequestBody AddExpenseRequest request) {
+        expensesService.addExpense(request);
+    }
+
+    @DeleteMapping ("/expenses")
+    public String deleteExpenses() {
+        return expensesService.deleteExpenses();
+    }
+
     @DeleteMapping("/expenses/{id}")
     public String deleteExpense(@PathVariable Long id) {
         return expensesService.deleteExpense(id);
     } 
+
+    @PutMapping("/expenses/{id}")
+    public String updateExpense(
+        @PathVariable Long id,
+        @RequestBody AddExpenseRequest request
+    ) {
+        return expensesService.updateExpense(id, request);
+    }
 }
